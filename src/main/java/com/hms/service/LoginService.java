@@ -19,22 +19,21 @@ public class LoginService {
         this.jwtService = jwtService;
     }
 
-    public String verifyLogin(LoginDto dto){
+    public String verifyLogin(LoginDto dto) {
         Optional<AppUser> opUsername = appUserRepository.findByUsername(dto.getUsername());
 
         if(opUsername.isPresent()){
             AppUser appUser = opUsername.get();
 
             if(BCrypt.checkpw(dto.getPassword(), appUser.getPassword())){
-                //generateToken
                 String token = jwtService.generateToken(appUser.getUsername());
                 return token;
             }
 
-        }else {
+        }else{
             return null;
+
         }
         return null;
-
     }
 }
